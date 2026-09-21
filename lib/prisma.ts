@@ -7,13 +7,13 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is not defined");
 }
 
-const prismaClientSingleton = () => {
+const prismaClientSingleton = (): PrismaClient => {
   const adapter = new PrismaPg({ connectionString });
   return new PrismaClient({ adapter });
 };
 
 declare global {
-  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
+  var prisma: undefined | PrismaClient;
 }
 
 const prisma = globalThis.prisma ?? prismaClientSingleton();
