@@ -1,18 +1,8 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { requireEntitlement } from "@/lib/entitlements";
 import prisma from "@/lib/prisma";
-
-type ExportNote = Prisma.NoteGetPayload<{
-  select: {
-    title: true;
-    content: true;
-    createdAt: true;
-    updatedAt: true;
-  };
-}>;
 
 function escapeCsv(value: string) {
   return `"${value.replaceAll('"', '""')}"`;
@@ -34,7 +24,7 @@ export async function GET() {
     );
   }
 
-  const notes: ExportNote[] = await prisma.note.findMany({
+  const notes = await prisma.note.findMany({
     where: { userId },
     orderBy: { updatedAt: "desc" },
     select: { title: true, content: true, createdAt: true, updatedAt: true },
