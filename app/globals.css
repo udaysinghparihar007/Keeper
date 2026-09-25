@@ -136,6 +136,16 @@ textarea:focus-visible {
   color: var(--keeper-primary-dark);
 }
 
+.plan-chip-link {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.plan-chip-link:hover {
+  border-color: var(--keeper-primary);
+  color: var(--keeper-primary-dark);
+}
+
 .account-button {
   display: inline-flex;
   align-items: center;
@@ -150,6 +160,15 @@ textarea:focus-visible {
 
 .account-button:hover {
   background: var(--keeper-surface-muted);
+}
+
+.account-chevron {
+  color: var(--keeper-muted);
+  transition: transform 160ms ease;
+}
+
+.account-chevron.is-open {
+  transform: rotate(180deg);
 }
 
 .account-trigger {
@@ -735,9 +754,9 @@ form.create-note.is-expanded .create-note-footer {
 
 .account-page,
 .pricing-page {
-  width: min(960px, 100%);
+  width: min(1120px, 100%);
   margin: 0 auto;
-  padding: 56px 24px 96px;
+  padding: 72px 24px 96px;
 }
 
 .page-intro {
@@ -761,12 +780,12 @@ form.create-note.is-expanded .create-note-footer {
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 22px;
 }
 
 .settings-card,
 .plan-card {
-  padding: 24px;
+  padding: 28px;
   border: 1px solid var(--keeper-border);
   border-radius: 14px;
   background: var(--keeper-surface);
@@ -775,7 +794,7 @@ form.create-note.is-expanded .create-note-footer {
 .settings-card h2,
 .plan-card h2 {
   margin: 0 0 18px;
-  font-size: 1rem;
+  font-size: 1.25rem;
 }
 
 .detail-label {
@@ -794,7 +813,8 @@ form.create-note.is-expanded .create-note-footer {
 
 .plan-card.pro {
   border-color: #c8d8c6;
-  background: var(--keeper-primary-soft);
+  background: linear-gradient(145deg, #edf4eb, var(--keeper-primary-soft));
+  box-shadow: 0 14px 30px rgba(53, 86, 57, 0.09);
 }
 
 .plan-price {
@@ -805,10 +825,14 @@ form.create-note.is-expanded .create-note-footer {
 }
 
 .plan-list {
-  min-height: 132px;
+  min-height: 118px;
   padding-left: 20px;
   color: var(--keeper-muted);
   line-height: 1.9;
+}
+
+.plan-card .auth-button {
+  margin-top: 18px;
 }
 
 @media (max-width: 800px) {

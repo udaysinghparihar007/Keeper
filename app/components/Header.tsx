@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import HighlightOutlinedIcon from "@mui/icons-material/HighlightOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AuthButtons from "./AuthButtons";
 
 interface HeaderProps {
@@ -55,7 +54,6 @@ export default function Header({
           plan={plan}
           onSavePermanently={onSavePermanently}
         />
-        <KeyboardArrowDownIcon className="account-chevron" fontSize="small" />
       </div>
     </header>
   );

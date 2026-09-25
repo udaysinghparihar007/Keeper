@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 type BillingStatus = { plan: "FREE" | "PRO" };
 
 export default function PricingPage() {
+  const { status } = useSession();
   const [billing, setBilling] = useState<BillingStatus | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -52,7 +54,17 @@ export default function PricingPage() {
             <li>Basic note creation and editing</li>
             <li>Up to 100 notes</li>
           </ul>
-          <span className="plan-chip">{billing?.plan === "FREE" ? "Current plan" : "Available"}</span>
+          {billing?.plan === "FREE" ? (
+            <Link className="plan-chip plan-chip-link" href="/account">
+              Current plan
+            </Link>
+          ) : status === "unauthenticated" ? (
+            <Link className="auth-button" href="/sign-up">
+              Get started free
+            </Link>
+          ) : (
+            <span className="plan-chip">Available</span>
+          )}
         </section>
         <section className="plan-card pro">
           <p className="eyebrow">For a growing workspace</p>

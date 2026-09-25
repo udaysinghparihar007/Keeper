@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
 
 interface AuthButtonsProps {
@@ -31,9 +32,13 @@ export default function AuthButtons({
   return (
     <div className="account-trigger">
       {session && (
-        <span className={`plan-chip ${plan === "PRO" ? "pro" : ""}`}>
+        <Link
+          href="/pricing"
+          className={`plan-chip plan-chip-link ${plan === "PRO" ? "pro" : ""}`}
+          aria-label={`View ${plan === "PRO" ? "Pro" : "Free"} plan details`}
+        >
           {plan === "PRO" ? "Pro" : "Free"}
-        </span>
+        </Link>
       )}
       {isGuest && hasGuestNotes && (
         <button className="auth-button primary compact-save" onClick={onSavePermanently}>
@@ -52,6 +57,10 @@ export default function AuthButtons({
           <AccountCircleOutlinedIcon />
         )}
         <span className="account-name">{session ? displayName : "Guest"}</span>
+        <KeyboardArrowDownIcon
+          className={`account-chevron${open ? " is-open" : ""}`}
+          fontSize="small"
+        />
       </button>
       {open && (
         <div className="account-menu" role="menu">
