@@ -26,7 +26,8 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  background: var(--keeper-bg);
+  background-color: #e2ebdf;
+  background-image: url("https://www.transparenttextures.com/patterns/always-grey.png");
   color: var(--keeper-text);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -223,9 +224,9 @@ textarea:focus-visible {
 }
 
 .workspace {
-  width: min(1120px, 100%);
+  width: min(1280px, 100%);
   margin: 0 auto;
-  padding: 32px 32px 88px;
+  padding: 34px clamp(20px, 4vw, 64px) 88px;
 }
 
 .workspace-heading {
@@ -233,7 +234,7 @@ textarea:focus-visible {
   align-items: end;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 26px;
 }
 
 .eyebrow {
@@ -276,8 +277,8 @@ textarea:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  width: min(720px, 100%);
-  margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 12px;
 }
 
 .editor-heading h2 {
@@ -295,7 +296,11 @@ textarea:focus-visible {
 .editor-storage {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  padding: 6px 9px;
+  border: 1px solid #d8e2d6;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.64);
 }
 
 .text-action {
@@ -348,17 +353,58 @@ textarea:focus-visible {
 }
 
 .editor-panel {
-  margin-bottom: 30px;
+  width: min(940px, 100%);
+  margin: 0 0 42px;
+  padding: 20px;
+  border: 1px solid #e0e7de;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(231, 239, 230, 0.72), rgba(255, 255, 255, 0.68));
 }
 
 form.create-note {
-  width: min(720px, 100%);
+  position: relative;
+  width: 100%;
   margin: 0;
-  padding: 18px;
+  padding: 16px 18px;
   border: 1px solid var(--keeper-border);
   border-radius: 14px;
   background: var(--keeper-surface);
-  box-shadow: 0 12px 34px rgba(30, 39, 33, 0.05);
+  box-shadow: 0 10px 28px rgba(30, 39, 33, 0.04);
+  cursor: text;
+  overflow: hidden;
+  transition: border-color 180ms ease, box-shadow 180ms ease, padding 220ms ease;
+}
+
+form.create-note:hover {
+  border-color: #c8d5c6;
+}
+
+form.create-note:not(.is-expanded) {
+  padding-left: 56px;
+}
+
+form.create-note:not(.is-expanded)::before {
+  position: absolute;
+  top: 50%;
+  left: 17px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--keeper-primary-soft);
+  color: var(--keeper-primary-dark);
+  content: "+";
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+form.create-note.is-expanded {
+  padding: 20px;
+  border-color: #b7cbb5;
+  box-shadow: 0 16px 38px rgba(39, 61, 42, 0.09);
 }
 
 form.create-note input,
@@ -373,23 +419,50 @@ form.create-note textarea {
 }
 
 form.create-note input {
-  margin-bottom: 8px;
+  min-height: 0;
+  margin: 0;
   font-size: 1.08rem;
   font-weight: 700;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: max-height 220ms ease, margin 220ms ease, opacity 160ms ease, transform 220ms ease;
+  max-height: 0;
 }
 
 form.create-note textarea {
-  min-height: 112px;
+  height: 26px;
+  min-height: 26px;
   color: var(--keeper-muted);
   line-height: 1.55;
+  overflow: hidden;
+  transition: height 240ms ease, color 180ms ease;
+}
+
+.create-note-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: max-height 220ms ease, margin 220ms ease, opacity 160ms ease, transform 220ms ease;
+}
+
+.composer-hint {
+  color: var(--keeper-muted);
+  font-size: 0.78rem;
 }
 
 form.create-note button {
-  position: static;
   display: inline-flex;
-  width: auto;
+  flex: 0 0 auto;
   height: 38px;
-  margin-top: 12px;
   padding: 0 14px;
   align-items: center;
   gap: 6px;
@@ -399,6 +472,28 @@ form.create-note button {
   color: #fff;
   box-shadow: none;
   cursor: pointer;
+}
+
+form.create-note.is-expanded input {
+  max-height: 36px;
+  margin-bottom: 8px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+form.create-note.is-expanded textarea {
+  height: clamp(140px, 20vw, 210px);
+  color: var(--keeper-text);
+  overflow-y: auto;
+}
+
+form.create-note.is-expanded .create-note-footer {
+  max-height: 42px;
+  margin-top: 14px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .notes-heading {
@@ -421,33 +516,40 @@ form.create-note button {
 
 .notes-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 18px;
 }
 
 .note {
-  min-height: 170px;
-  padding: 18px;
+  display: flex;
+  min-height: 210px;
+  padding: 20px;
+  flex-direction: column;
   border: 1px solid var(--keeper-border);
   border-radius: 12px;
   background: var(--keeper-surface);
-  transition: border-color 160ms ease, transform 160ms ease;
+  box-shadow: 0 5px 16px rgba(30, 39, 33, 0.025);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
 .note:hover {
   border-color: #c4d1c2;
+  box-shadow: 0 14px 28px rgba(30, 39, 33, 0.08);
   transform: translateY(-2px);
 }
 
-.note h1 {
+.note h2 {
   margin: 0 0 10px;
   font-size: 1rem;
   letter-spacing: -0.015em;
 }
 
 .note p {
-  min-height: 70px;
-  margin: 0 0 16px;
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
   color: var(--keeper-muted);
   font-size: 0.92rem;
   line-height: 1.55;
@@ -457,8 +559,17 @@ form.create-note button {
 
 .note-actions {
   display: flex;
+  margin-top: auto;
+  padding-top: 16px;
   justify-content: flex-end;
   gap: 4px;
+  opacity: 0.7;
+  transition: opacity 160ms ease;
+}
+
+.note:hover .note-actions,
+.note:focus-within .note-actions {
+  opacity: 1;
 }
 
 .icon-button {
@@ -479,7 +590,10 @@ form.create-note button {
 }
 
 .empty-state {
-  padding: 56px 24px;
+  display: grid;
+  min-height: 148px;
+  padding: 32px 24px;
+  place-items: center;
   border: 1px dashed #cbd4c8;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.45);
@@ -487,7 +601,7 @@ form.create-note button {
 }
 
 .empty-state h2 {
-  margin: 0 0 8px;
+  margin: 0 0 6px;
   font-size: 1.25rem;
 }
 
@@ -720,7 +834,7 @@ form.create-note button {
   }
 
   .workspace {
-    padding: 34px 16px 72px;
+    padding: 26px 16px 64px;
   }
 
   .workspace-heading {
@@ -733,6 +847,23 @@ form.create-note button {
     flex-direction: column;
   }
 
+  .editor-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .editor-storage {
+    flex-wrap: wrap;
+  }
+
+  form.create-note.is-expanded textarea {
+    height: 160px;
+  }
+
+  .composer-hint {
+    display: none;
+  }
+
   .notes-grid,
   .settings-grid,
   .pricing-grid {
@@ -741,5 +872,15 @@ form.create-note button {
 
   .auth-card {
     padding: 26px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }

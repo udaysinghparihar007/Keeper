@@ -55,7 +55,7 @@ export default function Note({ note, onUpdate, onDelete }: NoteProps) {
         </>
       ) : (
         <>
-          <h1>{note.title || "Untitled note"}</h1>
+          <h2>{note.title || "Untitled note"}</h2>
           <p>{note.content}</p>
           <div className="note-actions">
             <button className="icon-button" aria-label="Edit note" onClick={() => setIsEditing(true)}>
