@@ -14,15 +14,25 @@ creates new server IDs for every guest note and never overwrites existing
 account notes. Temporary local data is removed only after the import and
 account refresh both succeed.
 
-Run the database migration before using account note persistence:
+Run the database migration before
+using account note persistence:
 
 ```bash
 npx prisma migrate deploy
 ```
 
 The current migration creates the NextAuth tables and the `Note` table. Set
-`DATABASE_URL`, `NEXTAUTH_SECRET`, and the configured OAuth credentials in the
-environment used by the application.
+`DATABASE_URL`, `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, and the configured OAuth
+credentials in the environment used by the application. Use
+`http://localhost:3000` for local development and
+`https://keeper-neon-seven.vercel.app` for the Vercel Production environment.
+
+The corresponding OAuth callback URLs are:
+
+```text
+https://keeper-neon-seven.vercel.app/api/auth/callback/google
+https://keeper-neon-seven.vercel.app/api/auth/callback/github
+```
 
 Use `.env.example` as the configuration template. Never commit real OAuth,
 database, or Stripe secrets.
